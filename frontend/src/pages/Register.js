@@ -2,24 +2,30 @@ import { useState } from "react";
 import API from "../services/api";
 import "../App.css";
 
-export default function Login() {
+export default function Register() {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
-      const res = await API.post("/auth/login", { email, password });
-      localStorage.setItem("token", res.data.token);
-      window.location = "/dashboard";
+      await API.post("/auth/register", { name, email, password });
+      alert("Registered successfully! Please login.");
+      window.location = "/";
     } catch (err) {
-      alert("Invalid email or password");
+      alert("Registration failed. Email may already exist.");
     }
   };
 
   return (
     <div className="center-container">
       <div className="card">
-        <h2>Agrove Login 🌱</h2>
+        <h2>Create Account 🌱</h2>
+
+        <input
+          placeholder="Name"
+          onChange={(e) => setName(e.target.value)}
+        />
 
         <input
           type="email"
@@ -33,11 +39,7 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button onClick={handleLogin}>Login</button>
-        <p style={{ textAlign: "center", marginTop: "15px" }}>
-          New user? <a href="/register">Register here</a>
-        </p>
-
+        <button onClick={handleRegister}>Register</button>
       </div>
     </div>
   );
