@@ -55,7 +55,12 @@ router.put("/:id", authMiddleware, async (req, res) => {
     if (activity.userId.toString() !== req.user.id) {
       return res.status(403).json({ message: "Unauthorized" });
     }
-    Object.assign(activity, req.body);
+    const { type, date, description, notes, status } = req.body;
+    if (type !== undefined) activity.type = type;
+    if (date !== undefined) activity.date = date;
+    if (description !== undefined) activity.description = description;
+    if (notes !== undefined) activity.notes = notes;
+    if (status !== undefined) activity.status = status;
     activity.updatedAt = Date.now();
     await activity.save();
     res.json(activity);

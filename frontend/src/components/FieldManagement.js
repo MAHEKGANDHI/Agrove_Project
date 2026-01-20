@@ -5,25 +5,15 @@ import "./FieldManagement.css";
 const FieldManagement = () => {
   const [fields, setFields] = useState([]);
   const [formData, setFormData] = useState({
-    fieldName: "",
-    area: "",
-    mainCrop: "",
+    farmName: "",
+    crop: "",
+    totalArea: "",
     soilType: "",
   });
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const crops = [
-    "Maize",
-    "Wheat",
-    "Rice",
-    "Beans",
-    "Tomato",
-    "Cabbage",
-    "Potato",
-    "Carrots",
-  ];
   const soilTypes = [
     "Loamy",
     "Sandy",
@@ -41,7 +31,7 @@ const FieldManagement = () => {
     try {
       setLoading(true);
       const response = await API.get("/farms");
-      setFields(response.data.fields || []);
+      setFields(Array.isArray(response.data) ? response.data : []);
       setError("");
     } catch (err) {
       setError("Failed to fetch fields");
@@ -58,8 +48,8 @@ const FieldManagement = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.fieldName || !formData.area || !formData.mainCrop || !formData.soilType) {
-      setError("All fields are required");
+    if (!formData.farmName || !formData.totalArea || !formData.soilType) {
+      setError("Farm name, total area, and soil type are required");
       return;
     }
 
@@ -71,11 +61,11 @@ const FieldManagement = () => {
       } else {
         await API.post("/farms", formData);
       }
-      setFormData({ fieldName: "", area: "", mainCrop: "", soilType: "" });
+      setFormData({ farmName: "", crop: "", totalArea: "", soilType: "" });
       fetchFields();
       setError("");
     } catch (err) {
-      setError(err.response?.data?.message || "Failed to save field");
+      setError(err.response?.data?.message || "Failed to save farm");
       console.error(err);
     } finally {
       setLoading(false);
@@ -115,42 +105,37 @@ const FieldManagement = () => {
 
       <form className="field-form" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Field Name *</label>
+          <label>Farm Name *</label>
           <input
             type="text"
-            name="fieldName"
-            value={formData.fieldName}
+            name="farmName"
+            value={formData.farmName}
             onChange={handleInputChange}
-            placeholder="e.g., North Field"
+            placeholder="e.g., North Farm"
           />
         </div>
 
         <div className="form-group">
-          <label>Area (Hectares) *</label>
+          <label>Crop *</label>
+          <input
+            type="text"
+            name="crop"
+            value={formData.crop}
+            onChange={handleInputChange}
+            placeholder="e.g., Maize, Wheat"
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Total Area (Hectares) *</label>
           <input
             type="number"
-            name="area"
-            value={formData.area}
+            name="totalArea"
+            value={formData.totalArea}
             onChange={handleInputChange}
             placeholder="e.g., 5.5"
             step="0.1"
           />
-        </div>
-
-        <div className="form-group">
-          <label>Main Crop *</label>
-          <select
-            name="mainCrop"
-            value={formData.mainCrop}
-            onChange={handleInputChange}
-          >
-            <option value="">Select a crop</option>
-            {crops.map((crop) => (
-              <option key={crop} value={crop}>
-                {crop}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div className="form-group">
@@ -171,7 +156,7 @@ const FieldManagement = () => {
 
         <div className="form-actions">
           <button type="submit" disabled={loading}>
-            {loading ? "Saving..." : editingId ? "Update Field" : "Add Field"}
+            {loading ? "Saving..." : editingId ? "Update Farm" : "Add Farm"}
           </button>
           {editingId && (
             <button type="button" onClick={handleCancel} className="btn-secondary">
@@ -185,17 +170,19 @@ const FieldManagement = () => {
 
       <div className="fields-grid">
         {fields.length === 0 ? (
-          <p className="no-data">No fields registered yet. Add your first field!</p>
+          <p className="no-data">No farms registered yet. Add your first farm!</p>
         ) : (
           fields.map((field) => (
             <div key={field._id} className="field-card">
               <div className="field-card-header">
-                <h3>{field.fieldName}</h3>
-                <span className="crop-badge">{field.mainCrop}</span>
+                <h3>{field.farmName}</h3>
               </div>
               <div className="field-card-body">
                 <p>
-                  <strong>Area:</strong> {field.area} hectares
+                  <strong>Crop:</strong> {field.crop || "General Crops"}
+                </p>
+                <p>
+                  <strong>Area:</strong> {field.totalArea} hectares
                 </p>
                 <p>
                   <strong>Soil Type:</strong> {field.soilType}

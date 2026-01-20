@@ -358,11 +358,11 @@ const Profile = () => {
           </div>
           <div className="stat">
             <p className="stat-label">Account Type</p>
-            <p className="stat-value">Farmer</p>
+            <p className="stat-value">{user.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : "Farmer"}</p>
           </div>
           <div className="stat">
             <p className="stat-label">Email Verified</p>
-            <p className="stat-value">{user.isEmailVerified ? "✓ Yes" : "✗ No"}</p>
+            <p className="stat-value">✓ Yes</p>
           </div>
         </div>
       </div>

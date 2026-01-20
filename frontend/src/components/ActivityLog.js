@@ -51,7 +51,7 @@ const ActivityLog = () => {
   const fetchFields = async () => {
     try {
       const response = await API.get("/farms");
-      setFields(response.data.fields || []);
+      setFields(Array.isArray(response.data) ? response.data : []);
     } catch (err) {
       console.error("Failed to fetch fields", err);
     }
@@ -77,11 +77,9 @@ const ActivityLog = () => {
       setLoading(true);
       const payload = {
         farmId: formData.farmId,
-        activityType: formData.activityType,
+        type: formData.activityType,
         date: formData.date,
-        notes: formData.notes,
-        quantity: formData.quantity || null,
-        unit: formData.unit || null,
+        description: formData.notes,
       };
 
       if (editingId) {
@@ -95,8 +93,6 @@ const ActivityLog = () => {
         activityType: "",
         date: "",
         notes: "",
-        quantity: "",
-        unit: "",
       });
       fetchActivities();
       setError("");
@@ -111,11 +107,9 @@ const ActivityLog = () => {
   const handleEdit = (activity) => {
     setFormData({
       farmId: activity.farmId,
-      activityType: activity.activityType,
+      activityType: activity.type,
       date: activity.date.split("T")[0],
-      notes: activity.notes,
-      quantity: activity.quantity || "",
-      unit: activity.unit || "",
+      notes: activity.description || activity.notes,
     });
     setEditingId(activity._id);
   };
@@ -142,8 +136,6 @@ const ActivityLog = () => {
       activityType: "",
       date: "",
       notes: "",
-      quantity: "",
-      unit: "",
     });
     setEditingId(null);
     setError("");
@@ -174,7 +166,7 @@ const ActivityLog = () => {
               <option value="">Select a field</option>
               {fields.map((field) => (
                 <option key={field._id} value={field._id}>
-                  {field.fieldName} ({field.mainCrop})
+                  {field.farmName}
                 </option>
               ))}
             </select>
@@ -207,33 +199,10 @@ const ActivityLog = () => {
               onChange={handleInputChange}
             />
           </div>
-
-          <div className="form-group">
-            <label>Quantity</label>
-            <input
-              type="number"
-              name="quantity"
-              value={formData.quantity}
-              onChange={handleInputChange}
-              placeholder="e.g., 50"
-              step="0.01"
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Unit</label>
-            <input
-              type="text"
-              name="unit"
-              value={formData.unit}
-              onChange={handleInputChange}
-              placeholder="e.g., kg, litres, hours"
-            />
-          </div>
         </div>
 
         <div className="form-group">
-          <label>Notes</label>
+          <label>Description</label>
           <textarea
             name="notes"
             value={formData.notes}
@@ -278,13 +247,13 @@ const ActivityLog = () => {
         ) : (
           sortedActivities.map((activity) => {
             const fieldName =
-              fields.find((f) => f._id === activity.farmId)?.fieldName ||
-              "Unknown Field";
+              fields.find((f) => f._id === activity.farmId)?.farmName ||
+              "Unknown Farm";
             return (
               <div key={activity._id} className="activity-item">
                 <div className="activity-item-header">
                   <div>
-                    <h4>{activity.activityType}</h4>
+                    <h4>{activity.type}</h4>
                     <p className="field-name">{fieldName}</p>
                   </div>
                   <span className="activity-date">
@@ -296,12 +265,8 @@ const ActivityLog = () => {
                   </span>
                 </div>
                 <div className="activity-item-body">
+                  {activity.description && <p className="notes">{activity.description}</p>}
                   {activity.notes && <p className="notes">{activity.notes}</p>}
-                  {activity.quantity && (
-                    <p className="quantity">
-                      <strong>Quantity:</strong> {activity.quantity} {activity.unit}
-                    </p>
-                  )}
                 </div>
                 <div className="activity-item-actions">
                   <button

@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiUser, FiMail, FiLock, FiUserPlus } from "react-icons/fi";
-import NavbarNew from "../components/NavbarNew";
 import API from "../services/api";
 import { showError, showSuccess } from "../services/toast";
 import "./Login.css";
 
-export default function Register({ isDarkMode, setIsDarkMode }) {
+export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -41,9 +40,7 @@ export default function Register({ isDarkMode, setIsDarkMode }) {
   };
 
   return (
-    <>
-      <NavbarNew isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-      <div className="min-h-screen bg-gradient-to-br from-agro-light to-agro-green dark:from-gray-900 dark:to-gray-800 flex items-center justify-center py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-agro-light to-agro-green dark:from-gray-900 dark:to-gray-800 flex items-center justify-center py-12 px-4">
         <div className="w-full max-w-md card">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-agro-green dark:text-agro-light mb-2">🌱 Agrove</h1>
@@ -152,6 +149,5 @@ export default function Register({ isDarkMode, setIsDarkMode }) {
           </div>
         </div>
       </div>
-    </>
   );
 }

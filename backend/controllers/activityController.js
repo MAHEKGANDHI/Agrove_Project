@@ -1,7 +1,7 @@
-import Activity from "../models/Activity.js";
+const Activity = require("../models/Activity");
 
 // ADD ACTIVITY
-export const addActivity = async (req, res) => {
+const addActivity = async (req, res) => {
   try {
     const { title, description, date } = req.body;
 
@@ -23,7 +23,7 @@ export const addActivity = async (req, res) => {
 };
 
 // GET ACTIVITIES
-export const getActivities = async (req, res) => {
+const getActivities = async (req, res) => {
   try {
     const activities = await Activity.find({ user: req.user.id });
     res.json(activities);
@@ -31,3 +31,5 @@ export const getActivities = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = { addActivity, getActivities };

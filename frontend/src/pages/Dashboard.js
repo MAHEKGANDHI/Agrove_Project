@@ -67,10 +67,10 @@ export default function Dashboard() {
         <div className="farm-grid">
           {farms.map((farm) => (
             <div className="farm-card" key={farm._id}>
-              <h3>{farm.fieldName}</h3>
-              <p><strong>🌱 Crop:</strong> {farm.crop}</p>
-              <p><strong>📏 Area:</strong> {farm.area} hectares</p>
-              <p><strong>🪨 Soil:</strong> {farm.soilType}</p>
+              <h3>{farm.farmName}</h3>
+              <p><strong>🌱 Crop:</strong> {farm.crop || "General Crops"}</p>
+              <p><strong>📏 Area:</strong> {farm.totalArea} hectares</p>
+              <p><strong>🪨 Soil:</strong> {farm.soilType || "Not specified"}</p>
             </div>
           ))}
         </div>

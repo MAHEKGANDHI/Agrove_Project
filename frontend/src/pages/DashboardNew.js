@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FiPlus, FiEdit2, FiTrash2, FiLoader } from "react-icons/fi";
-import NavbarNew from "../components/NavbarNew";
 import API from "../services/api";
 import { showSuccess, showError } from "../services/toast";
 
-export default function DashboardNew({ isDarkMode, setIsDarkMode }) {
+export default function DashboardNew() {
   const [farms, setFarms] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
@@ -100,9 +99,7 @@ export default function DashboardNew({ isDarkMode, setIsDarkMode }) {
   };
 
   return (
-    <>
-      <NavbarNew isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-12 px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
@@ -273,6 +270,6 @@ export default function DashboardNew({ isDarkMode, setIsDarkMode }) {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }

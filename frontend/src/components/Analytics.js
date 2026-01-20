@@ -32,7 +32,7 @@ const Analytics = () => {
         API.get("/farms"),
         API.get("/activities"),
       ]);
-      setFields(fieldsRes.data.fields || []);
+      setFields(Array.isArray(fieldsRes.data) ? fieldsRes.data : []);
       setActivities(activitiesRes.data || []);
       setError("");
     } catch (err) {
@@ -45,15 +45,15 @@ const Analytics = () => {
   const getCropAreaData = () => {
     const cropMap = {};
     fields.forEach((field) => {
-      if (cropMap[field.mainCrop]) {
-        cropMap[field.mainCrop] += parseFloat(field.area) || 0;
+      if (cropMap[field.crop]) {
+        cropMap[field.crop] += parseFloat(field.totalArea) || 0;
       } else {
-        cropMap[field.mainCrop] = parseFloat(field.area) || 0;
+        cropMap[field.crop] = parseFloat(field.totalArea) || 0;
       }
     });
 
     return Object.entries(cropMap).map(([crop, area]) => ({
-      name: crop,
+      name: crop || "General Crops",
       area: parseFloat(area.toFixed(2)),
     }));
   };
@@ -90,10 +90,10 @@ const Analytics = () => {
   const getActivityTypeData = () => {
     const typeMap = {};
     activities.forEach((activity) => {
-      if (typeMap[activity.activityType]) {
-        typeMap[activity.activityType]++;
+      if (typeMap[activity.type]) {
+        typeMap[activity.type]++;
       } else {
-        typeMap[activity.activityType] = 1;
+        typeMap[activity.type] = 1;
       }
     });
 
@@ -135,7 +135,7 @@ const Analytics = () => {
 
   // Calculate summary statistics
   const getTotalArea = () =>
-    fields.reduce((sum, field) => sum + parseFloat(field.area || 0), 0).toFixed(2);
+    fields.reduce((sum, field) => sum + parseFloat(field.totalArea || 0), 0).toFixed(2);
 
   const getTotalActivities = () => activities.length;
 
@@ -143,7 +143,8 @@ const Analytics = () => {
     if (fields.length === 0) return "N/A";
     const cropMap = {};
     fields.forEach((field) => {
-      cropMap[field.mainCrop] = (cropMap[field.mainCrop] || 0) + 1;
+      const crop = field.crop || "General Crops";
+      cropMap[crop] = (cropMap[crop] || 0) + 1;
     });
     return Object.keys(cropMap).reduce((a, b) =>
       cropMap[a] > cropMap[b] ? a : b
@@ -307,7 +308,7 @@ const Analytics = () => {
         <div className="insights-grid">
           {cropAreaData.length > 0 && (
             <div className="insight-card">
-              <h4>Largest Field</h4>
+              <h4>Largest Farm</h4>
               <p>
                 {cropAreaData.reduce((prev, current) =>
                   prev.area > current.area ? prev : current

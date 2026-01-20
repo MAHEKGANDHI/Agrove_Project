@@ -1,7 +1,7 @@
-import Farm from "../models/Farm.js";
+const Farm = require("../models/Farm");
 
 // ADD FARM
-export const addFarm = async (req, res) => {
+const addFarm = async (req, res) => {
   try {
     const { name, location, size } = req.body;
 
@@ -23,7 +23,7 @@ export const addFarm = async (req, res) => {
 };
 
 // GET FARMS (user-specific)
-export const getFarms = async (req, res) => {
+const getFarms = async (req, res) => {
   try {
     const farms = await Farm.find({ user: req.user.id });
     res.json(farms);
@@ -31,3 +31,5 @@ export const getFarms = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+module.exports = { addFarm, getFarms };
