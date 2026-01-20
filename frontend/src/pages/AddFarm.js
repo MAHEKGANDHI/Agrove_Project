@@ -1,39 +1,90 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import API from "../services/api";
-import "../App.css";
+import "./AddFarm.css";
 
 export default function AddFarm() {
   const [fieldName, setFieldName] = useState("");
   const [area, setArea] = useState("");
   const [crop, setCrop] = useState("");
   const [soilType, setSoilType] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleAddFarm = async () => {
+    if (!fieldName || !area || !crop || !soilType) {
+      alert("Please fill all fields 🌱");
+      return;
+    }
+
     try {
+      setLoading(true);
       await API.post("/farms", {
         fieldName,
         area,
         crop,
         soilType
       });
-      alert("Farm added successfully 🌱");
-      window.location = "/dashboard";
+
+      alert("Farm added successfully 🌾");
+      navigate("/dashboard"); // dashboard fetches farms again
     } catch (err) {
       alert("Failed to add farm");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="center-container">
-      <div className="card">
-        <h2>Add Farm 🌾</h2>
+    <div className="addfarm-container">
+      <div className="addfarm-card">
+        <h2>🌾 Add New Farm</h2>
 
-        <input placeholder="Field Name" onChange={(e) => setFieldName(e.target.value)} />
-        <input placeholder="Area (hectares)" onChange={(e) => setArea(e.target.value)} />
-        <input placeholder="Crop Type" onChange={(e) => setCrop(e.target.value)} />
-        <input placeholder="Soil Type" onChange={(e) => setSoilType(e.target.value)} />
+        <label>
+          Field Name
+          <input
+            type="text"
+            placeholder="e.g. North Field"
+            value={fieldName}
+            onChange={(e) => setFieldName(e.target.value)}
+          />
+        </label>
 
-        <button onClick={handleAddFarm}>Add Farm</button>
+        <label>
+          Area (hectares)
+          <input
+            type="number"
+            placeholder="e.g. 5.5"
+            value={area}
+            onChange={(e) => setArea(e.target.value)}
+          />
+        </label>
+
+        <label>
+          Crop Type
+          <input
+            type="text"
+            placeholder="e.g. Wheat"
+            value={crop}
+            onChange={(e) => setCrop(e.target.value)}
+          />
+        </label>
+
+        <label>
+          Soil Type
+          <input
+            type="text"
+            placeholder="e.g. Loamy"
+            value={soilType}
+            onChange={(e) => setSoilType(e.target.value)}
+          />
+        </label>
+
+        <button onClick={handleAddFarm} disabled={loading}>
+          {loading ? "Adding..." : "Add Farm 🌱"}
+        </button>
       </div>
     </div>
   );

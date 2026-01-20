@@ -1,104 +1,180 @@
-/* Navbar Styles */
-.navbar {
-  background: linear-gradient(135deg, var(--primary-green) 0%, var(--primary-dark) 100%);
-  box-shadow: var(--shadow-md);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+/* ---------- ROOT VARIABLES ---------- */
+:root {
+  --primary: #2e7d32;
+  --primary-light: #4caf50;
+  --bg-light: #f4f7f5;
+  --text-dark: #1f2937;
+  --border-light: #e5e7eb;
+  --shadow-soft: 0 10px 25px rgba(0, 0, 0, 0.08);
 }
 
-.navbar-container {
+/* ---------- PAGE BACKGROUND ---------- */
+.activities-page {
+  background: linear-gradient(180deg, #f4f7f5, #ffffff);
+  min-height: 100vh;
+  padding: 30px 16px;
+}
+
+/* ---------- CONTAINER ---------- */
+.activity-container {
+  max-width: 1100px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 30px;
+  box-shadow: var(--shadow-soft);
+}
+
+/* ---------- HEADER ---------- */
+.activity-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-  height: 70px;
-}
-
-.navbar-logo {
-  display: flex;
   align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: rgb(11, 3, 3);
+  margin-bottom: 25px;
+  border-bottom: 2px solid var(--border-light);
+  padding-bottom: 15px;
+}
+
+.activity-header h2 {
+  font-size: 26px;
   font-weight: 700;
-  font-size: 1.5rem;
+  color: var(--primary);
 }
 
-.logo-icon {
-  font-size: 2rem;
+/* ---------- FORM GRID ---------- */
+.activity-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
 }
 
-.logo-text {
-  display: none;
+/* ---------- LABELS ---------- */
+.activity-form label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+  display: block;
 }
 
-.nav-links {
-  display: flex;
-  gap: 30px;
-  flex: 1;
-  margin-left: 50px;
-}
-
-.nav-link {
-  color: rgb(63, 102, 89);
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 0.95rem;
-  position: relative;
-  transition: var(--transition);
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background-color: rgb(170, 223, 175);
-  transition: var(--transition);
-}
-
-.nav-link:hover::after {
+/* ---------- INPUTS ---------- */
+.activity-form input,
+.activity-form select,
+.activity-form textarea {
   width: 100%;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+  transition: all 0.25s ease;
+  background: #fff;
 }
 
-.nav-link:hover {
-  color: rgba(255, 255, 255, 0.8);
+.activity-form textarea {
+  grid-column: 1 / -1;
+  resize: none;
+  height: 100px;
 }
 
-.btn-logout {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: 2px solid white;
-  padding: 8px 18px;
-  font-size: 0.9rem;
+.activity-form input:focus,
+.activity-form select:focus,
+.activity-form textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.15);
 }
 
-.btn-logout:hover {
-  background-color: white;
-  color: var(--primary-green);
-  border-color: white;
+/* ---------- BUTTON ---------- */
+.log-activity-btn {
+  grid-column: 1 / -1;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .navbar-container {
-    padding: 0 16px;
-    height: 60px;
+.log-activity-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(46, 125, 50, 0.3);
+}
+
+/* ---------- FILTER SECTION ---------- */
+.activity-filter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.activity-filter select {
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border-light);
+}
+
+/* ---------- ACTIVITY LIST ---------- */
+.activity-list {
+  display: grid;
+  gap: 16px;
+}
+
+/* ---------- ACTIVITY CARD ---------- */
+.activity-item {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 6px solid var(--primary);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.activity-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- CARD TEXT ---------- */
+.activity-item h3 {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.activity-item p {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
+}
+
+/* ---------- EMPTY STATE ---------- */
+.no-activity {
+  text-align: center;
+  padding: 40px;
+  color: #777;
+  font-size: 15px;
+}
+
+/* ---------- ERROR ---------- */
+.error-text {
+  color: #d32f2f;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 640px) {
+  .activity-container {
+    padding: 20px;
   }
 
-  .navbar-logo {
-    font-size: 1.25rem;
-  }
-
-  .logo-text {
-    display: inline;
-  }
-
-  .nav-links {
-    display: none;
+  .activity-header h2 {
+    font-size: 22px;
   }
 }

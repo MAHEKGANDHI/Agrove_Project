@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import "../App.css";
+import "./Dashboard.css";
 
 export default function Dashboard() {
   const [farms, setFarms] = useState([]);
@@ -9,17 +10,26 @@ export default function Dashboard() {
 
   useEffect(() => {
     API.get("/farms")
-      .then((res) => setFarms(res.data.fields || []))
+      .then((res) => {
+        // ✅ HANDLE BOTH API RESPONSE TYPES
+        if (Array.isArray(res.data)) {
+          setFarms(res.data);
+        } else if (Array.isArray(res.data.fields)) {
+          setFarms(res.data.fields);
+        } else {
+          setFarms([]);
+        }
+      })
       .catch((err) => {
-  if (err.response?.status === 401) {
-    alert("Session expired. Please login again.");
-    localStorage.removeItem("token");
-    navigate("/login");
-  } else {
-    alert("Failed to load farms");
-    console.error(err);
-  }
-});
+        if (err.response?.status === 401) {
+          alert("Session expired. Please login again.");
+          localStorage.removeItem("token");
+          navigate("/login");
+        } else {
+          alert("Failed to load farms");
+          console.error(err);
+        }
+      });
   }, [navigate]);
 
   const logout = () => {
@@ -29,120 +39,41 @@ export default function Dashboard() {
 
   return (
     <>
-      {/* Navbar */}
       <div className="navbar">
         <h2>🌱 Agrove Dashboard</h2>
         <button onClick={logout}>Logout</button>
       </div>
 
-      {/* Dashboard Content */}
       <div className="dashboard">
         <div className="dashboard-header">
           <h2>🌾 My Farms</h2>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <button
-              onClick={() => navigate("/farms")}
-              style={{
-                backgroundColor: "#2e7d32",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              ➕ Manage Fields
-            </button>
-            <button
-              onClick={() => navigate("/activities")}
-              style={{
-                backgroundColor: "#1976d2",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              📋 Log Activities
-            </button>
-            <button
-              onClick={() => navigate("/analytics")}
-              style={{
-                backgroundColor: "#f57c00",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              📊 View Analytics
-            </button>
-            <button
-              onClick={() => navigate("/advisory")}
-              style={{
-                backgroundColor: "#7b1fa2",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              💡 Advisory Hub
-            </button>
-            <button
-              onClick={() => navigate("/export")}
-              style={{
-                backgroundColor: "#0097a7",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              📥 Export Data
-            </button>
-            <button
-              onClick={() => navigate("/profile")}
-              style={{
-                backgroundColor: "#c2185b",
-                color: "white",
-                padding: "8px 16px",
-                border: "none",
-                borderRadius: "5px",
-                cursor: "pointer",
-                fontWeight: "bold"
-              }}
-            >
-              👤 My Profile
-            </button>
+
+          <div className="dashboard-actions">
+            <button onClick={() => navigate("/farms")}>➕ Manage Fields</button>
+            <button onClick={() => navigate("/activities")}>📋 Log Activities</button>
+            <button onClick={() => navigate("/analytics")}>📊 View Analytics</button>
+            <button onClick={() => navigate("/advisory")}>💡 Advisory Hub</button>
+            <button onClick={() => navigate("/export")}>📥 Export Data</button>
+            <button onClick={() => navigate("/profile")}>👤 My Profile</button>
           </div>
         </div>
 
-        {/* Empty State */}
         {farms.length === 0 && (
-          <p style={{ color: "#777", marginTop: "30px" }}>
-            🌱 No farms added yet. Click <b>Add Farm</b> to get started.
+          <p className="empty-text">
+            🌱 No farms added yet. Click <b>Manage Fields</b> to add your first farm.
           </p>
         )}
 
-        {/* Farm Cards */}
-        {farms.map((farm) => (
-          <div className="farm-card" key={farm._id}>
-            <h3>{farm.fieldName}</h3>
-            <p><strong>🌱 Crop:</strong> {farm.crop}</p>
-            <p><strong>📏 Area:</strong> {farm.area} hectares</p>
-            <p><strong>🪨 Soil:</strong> {farm.soilType}</p>
-          </div>
-        ))}
+        <div className="farm-grid">
+          {farms.map((farm) => (
+            <div className="farm-card" key={farm._id}>
+              <h3>{farm.fieldName}</h3>
+              <p><strong>🌱 Crop:</strong> {farm.crop}</p>
+              <p><strong>📏 Area:</strong> {farm.area} hectares</p>
+              <p><strong>🪨 Soil:</strong> {farm.soilType}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

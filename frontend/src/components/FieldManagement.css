@@ -1,249 +1,51 @@
-.field-management-container {
-  padding: 2rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-  min-height: 100vh;
-}
-
-.field-management-container h2 {
-  font-size: 2rem;
-  color: #2d3748;
-  margin-bottom: 2rem;
-  text-align: center;
-  font-weight: 700;
-}
-
-.field-form {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 0 auto 2rem;
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #2d3748;
-  font-size: 0.95rem;
-}
-
-.form-group input,
-.form-group select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
-  font-size: 0.95rem;
-  font-family: inherit;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-
-.form-group input:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: #48bb78;
-  box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.1);
-}
-
-.form-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.form-actions button {
-  flex: 1;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.form-actions button[type="submit"] {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-  color: white;
-}
-
-.form-actions button[type="submit"]:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(72, 187, 120, 0.3);
-}
-
-.form-actions button[type="submit"]:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-secondary {
-  background: #e2e8f0;
-  color: #2d3748;
-}
-
-.btn-secondary:hover {
-  background: #cbd5e0;
-}
-
-.error-message {
-  background: #fed7d7;
-  color: #c53030;
-  padding: 1rem;
-  border-radius: 8px;
-  margin-bottom: 1.5rem;
-  text-align: center;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  font-weight: 500;
-}
-
-.fields-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
+.field-container {
+  padding: 30px;
   max-width: 1200px;
   margin: 0 auto;
 }
 
-.field-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
-}
-
-.field-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
-
-.field-card-header {
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
-  color: white;
-  padding: 1.5rem;
+.field-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
-.field-card-header h3 {
+.field-header h2 {
+  color: #2e7d32;
+  font-size: 28px;
   margin: 0;
-  font-size: 1.3rem;
-  flex: 1;
 }
 
-.crop-badge {
-  background: rgba(255, 255, 255, 0.3);
-  padding: 0.35rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  white-space: nowrap;
+.farms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
-.field-card-body {
-  padding: 1.5rem;
-  flex: 1;
-}
-
-.field-card-body p {
-  margin: 0.5rem 0;
-  color: #4a5568;
-  font-size: 0.95rem;
-}
-
-.field-card-body strong {
-  color: #2d3748;
-  font-weight: 600;
-}
-
-.field-card-actions {
-  padding: 1rem 1.5rem;
-  display: flex;
-  gap: 0.5rem;
-  border-top: 1px solid #e2e8f0;
-}
-
-.btn-edit,
-.btn-delete {
-  flex: 1;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
+.farm-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
-  font-size: 0.85rem;
 }
 
-.btn-edit {
-  background: #bee3f8;
-  color: #2c5aa0;
+.farm-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-3px);
 }
 
-.btn-edit:hover:not(:disabled) {
-  background: #90cdf4;
+.farm-card h3 {
+  color: #2e7d32;
+  margin: 0 0 10px 0;
+  font-size: 20px;
 }
 
-.btn-delete {
-  background: #fed7d7;
-  color: #c53030;
-}
-
-.btn-delete:hover:not(:disabled) {
-  background: #fc8181;
-}
-
-.btn-edit:disabled,
-.btn-delete:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.no-data {
-  text-align: center;
-  color: #718096;
-  font-size: 1.1rem;
-  padding: 2rem;
-  grid-column: 1 / -1;
-}
-
-@media (max-width: 768px) {
-  .field-management-container {
-    padding: 1rem;
-  }
-
-  .field-management-container h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .field-form {
-    padding: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .fields-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  .form-actions {
-    flex-direction: column;
-  }
-
-  .form-actions button {
-    width: 100%;
-  }
+.farm-card p {
+  color: #666;
+  margin: 5px 0;
+  font-size: 14px;
 }

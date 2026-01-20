@@ -27,44 +27,44 @@ export default function NavbarNew({ isDarkMode, setIsDarkMode }) {
   ];
 
   return (
-    <nav className="bg-agro-green dark:bg-agro-dark shadow-lg sticky top-0 z-50">
+    <nav className="sticky top-0 z-50 backdrop-blur-lg bg-agro-green/90 dark:bg-agro-dark/90 shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+
           {/* Logo */}
-          <div className="flex-shrink-0 flex items-center">
-            <h1 className="text-2xl font-bold text-white cursor-pointer" onClick={() => navigate("/")}>
-              🌱 Agrove
-            </h1>
-          </div>
+          <h1
+            onClick={() => navigate("/")}
+            className="text-2xl font-extrabold text-white cursor-pointer tracking-wide"
+          >
+            🌱 Agrove
+          </h1>
 
           {/* Desktop Menu */}
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
-              {navLinks.map((link) => {
-                if (link.requireLogin && !isLoggedIn) return null;
-                return (
-                  <button
-                    key={link.path}
-                    onClick={() => navigate(link.path)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-all ${
-                      isActive(link.path)
-                        ? "bg-agro-dark text-white"
-                        : "text-white hover:bg-agro-light"
-                    }`}
-                  >
-                    {link.label}
-                  </button>
-                );
-              })}
-            </div>
+          <div className="hidden md:flex items-center space-x-6">
+            {navLinks.map((link) => {
+              if (link.requireLogin && !isLoggedIn) return null;
+              return (
+                <button
+                  key={link.path}
+                  onClick={() => navigate(link.path)}
+                  className={`relative px-2 py-1 text-sm font-medium text-white transition-all
+                    after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-white after:transition-all
+                    ${isActive(link.path) ? "after:w-full" : "after:w-0 hover:after:w-full"}
+                  `}
+                >
+                  {link.label}
+                </button>
+              );
+            })}
           </div>
 
-          {/* Right side icons */}
-          <div className="hidden md:flex items-center space-x-4">
+          {/* Right Icons */}
+          <div className="hidden md:flex items-center space-x-3">
+
+            {/* Dark Mode */}
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-all"
-              title={isDarkMode ? "Light Mode" : "Dark Mode"}
+              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition"
             >
               {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
             </button>
@@ -73,40 +73,41 @@ export default function NavbarNew({ isDarkMode, setIsDarkMode }) {
               <>
                 <button
                   onClick={() => navigate("/profile")}
-                  className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-all"
-                  title="Profile"
+                  className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition"
                 >
                   <FiUser size={20} />
                 </button>
+
                 <button
                   onClick={logout}
-                  className="flex items-center space-x-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition-all"
+                  className="flex items-center gap-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition"
                 >
                   <FiLogOut size={18} />
-                  <span>Logout</span>
+                  Logout
                 </button>
               </>
             ) : (
               <button
                 onClick={() => navigate("/login")}
-                className="px-4 py-2 bg-white text-agro-green rounded-lg font-semibold hover:bg-gray-100 transition-all"
+                className="px-4 py-2 bg-white text-agro-green rounded-lg font-semibold hover:bg-gray-100 transition"
               >
                 Login
               </button>
             )}
           </div>
 
-          {/* Mobile menu button */}
-          <div className="md:hidden flex items-center space-x-2">
+          {/* Mobile Buttons */}
+          <div className="md:hidden flex items-center gap-2">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-all"
+              className="p-2 rounded-lg bg-white/20 text-white"
             >
               {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
             </button>
+
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-all"
+              className="p-2 rounded-lg bg-white/20 text-white"
             >
               {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
@@ -115,42 +116,41 @@ export default function NavbarNew({ isDarkMode, setIsDarkMode }) {
       </div>
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div className="md:hidden bg-agro-dark">
-          <div className="px-2 pt-2 pb-3 space-y-1">
-            {navLinks.map((link) => {
-              if (link.requireLogin && !isLoggedIn) return null;
-              return (
-                <button
-                  key={link.path}
-                  onClick={() => {
-                    navigate(link.path);
-                    setIsOpen(false);
-                  }}
-                  className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all ${
-                    isActive(link.path)
-                      ? "bg-agro-light text-white"
-                      : "text-white hover:bg-agro-light"
-                  }`}
-                >
-                  {link.label}
-                </button>
-              );
-            })}
-            {isLoggedIn && (
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ${
+          isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        } bg-agro-dark`}
+      >
+        <div className="px-4 py-3 space-y-2">
+          {navLinks.map((link) => {
+            if (link.requireLogin && !isLoggedIn) return null;
+            return (
               <button
+                key={link.path}
                 onClick={() => {
-                  logout();
+                  navigate(link.path);
                   setIsOpen(false);
                 }}
-                className="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-white hover:bg-red-600 transition-all"
+                className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-agro-light transition"
               >
-                Logout
+                {link.label}
               </button>
-            )}
-          </div>
+            );
+          })}
+
+          {isLoggedIn && (
+            <button
+              onClick={() => {
+                logout();
+                setIsOpen(false);
+              }}
+              className="block w-full text-left px-3 py-2 rounded-md text-white hover:bg-red-600 transition"
+            >
+              Logout
+            </button>
+          )}
         </div>
-      )}
+      </div>
     </nav>
   );
 }

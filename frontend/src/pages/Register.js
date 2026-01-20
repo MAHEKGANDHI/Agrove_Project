@@ -4,6 +4,7 @@ import { FiUser, FiMail, FiLock, FiUserPlus } from "react-icons/fi";
 import NavbarNew from "../components/NavbarNew";
 import API from "../services/api";
 import { showError, showSuccess } from "../services/toast";
+import "./Login.css";
 
 export default function Register({ isDarkMode, setIsDarkMode }) {
   const [name, setName] = useState("");
