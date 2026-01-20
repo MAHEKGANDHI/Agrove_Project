@@ -1,14 +1,28 @@
 const router = require("express").Router();
 const Farm = require("../models/Farm");
+const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/", async (req, res) => {
-  const farm = await Farm.create(req.body);
-  res.json(farm);
+// Create farm
+router.post("/", authMiddleware, async (req, res) => {
+  try {
+    const farm = await Farm.create({
+      ...req.body,
+      userId: req.user.id,
+    });
+    res.status(201).json(farm);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
-router.get("/", async (req, res) => {
-  const farms = await Farm.find();
-  res.json(farms);
+// Get farms
+router.get("/", authMiddleware, async (req, res) => {
+  try {
+    const farms = await Farm.find({ userId: req.user.id });
+    res.json({ fields: farms });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 module.exports = router;

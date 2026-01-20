@@ -5,14 +5,12 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true,
+}));
 app.use(express.json());
 
-// // 🔍 TEMP DEBUG (remove after testing)
-// console.log("Mongo URI:", process.env.MONGO_URI);
-// console.log("JWT Secret:", process.env.JWT_SECRET);
-
-// Routes
 app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/farms", require("./routes/farmRoutes"));
 app.use("/api/activities", require("./routes/activityRoutes"));

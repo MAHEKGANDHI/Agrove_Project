@@ -3,7 +3,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import AddFarm from "./pages/AddFarm";
-import Navbar from "./components/Navbar";
+// import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import FieldManagement from "./components/FieldManagement";
 import ActivityLog from "./components/ActivityLog";
@@ -18,7 +18,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      {isLoggedIn && <Navbar isLoggedIn={isLoggedIn} />}
+      {/* {isLoggedIn && <Navbar isLoggedIn={isLoggedIn} />} */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

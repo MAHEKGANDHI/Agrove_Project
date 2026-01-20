@@ -10,11 +10,16 @@ export default function Dashboard() {
   useEffect(() => {
     API.get("/farms")
       .then((res) => setFarms(res.data.fields || []))
-      .catch(() => {
-        alert("Session expired. Please login again.");
-        localStorage.removeItem("token");
-        navigate("/login");
-      });
+      .catch((err) => {
+  if (err.response?.status === 401) {
+    alert("Session expired. Please login again.");
+    localStorage.removeItem("token");
+    navigate("/login");
+  } else {
+    alert("Failed to load farms");
+    console.error(err);
+  }
+});
   }, [navigate]);
 
   const logout = () => {
