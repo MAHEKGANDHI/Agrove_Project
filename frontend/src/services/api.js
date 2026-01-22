@@ -1,10 +1,9 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "https://agrove-project-nfcf.onrender.com/api"
+  baseURL: "https://agrove-project-nfcf.onrender.com/api",
 });
 
-// Attach token automatically
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
   if (token) {

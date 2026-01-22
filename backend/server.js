@@ -10,11 +10,13 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://agrove-project-weld.vercel.app",
+      "https://agrove-project-weld.vercel.app"
     ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
+
 
 app.use(express.json());
 
